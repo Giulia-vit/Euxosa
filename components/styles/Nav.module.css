@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&family=Poppins:wght@100&display=swap');
+.nav {
+    width: 50%;
+    float: right;
+    display: inline-flex;
+}
+
+.list {
+    list-style-type: none;
+    display: flex;
+    padding: 0;
+}
+
+.item {
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+  
