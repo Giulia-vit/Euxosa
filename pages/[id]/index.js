@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../public/Card.module.css'
 import {Loader, Confirm } from 'semantic-ui-react';
+import Link from 'next/link'
+import 'semantic-ui-css/semantic.min.css'
 
 const Event = ({ event }) => {
     const [confirm, setConfirm] = useState(false);
@@ -20,9 +22,9 @@ const Event = ({ event }) => {
     const close = () => setConfirm(false);
 
     const deleteEvent = async () => {
-        const eventId = router.query.id;
+        const id = router.query.id;
         try {
-            const deleted = await fetch(`http://localhost:3000/api/events/${eventId}`, {
+            const deleted = await fetch(`http://localhost:3000/api/events/${id}`, {
                 method: "Delete"
             });
 
@@ -39,12 +41,7 @@ const Event = ({ event }) => {
 
     return (
 
-
-
-
         <div className={styles.eventPage}>
-
-
 
 
             {isDeleting
@@ -102,30 +99,20 @@ const Event = ({ event }) => {
 
 {/* Qui al posto del pulsante delete voglio mettereci edit perché siamo nella parte organizer-owner */}
 
-<button  onClick={open}>Delete / Edit</button> 
+<button  onClick={open}>Delete</button> 
+
+<Link href={`/${event._id}/FormEdit`}>
+<a>
+    Edit Event
+</a>
+</Link>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <Confirm
-                open={confirm}
+<Confirm open={confirm}
                 onCancel={close}
-                onConfirm={handleDelete}
-            />
+                onConfirm={handleDelete}/>
         </div>
 
 
@@ -141,13 +128,11 @@ const Event = ({ event }) => {
     )
 }
 
-Event.getInitialProps = async ({ query: { id } }) => {
-    const res = await fetch(`http://localhost:3000/api/events/${id}`, {
-        method:'GET'
-    });
+Event.getInitialProps = async function ({ query: { id } }) {
+    const res = await fetch(`http://localhost:3000/api/events/${id}`);
     const { data } = await res.json();
 
-    return { event: data }
+    return { event: data };
 }
 
 export default Event;

@@ -8,14 +8,14 @@ const EventSchema = new mongoose.Schema({
         trim: true,
         maxlength: [150, "Maximum lenght is 150 characters"]   
     },
-    category:{
+   category:{
         type: String,
         required: [true, "The Category is required"],
         unique: true,
         trim: true,
         maxlength: [150, "Maximum lenght is 150 characters"]  //Make them choose between a set of preexisted categories 
     },
-    introduction:{
+/*     introduction:{
         type: String,
         required: [true, "An Introduction is required"],
         maxlenght:[500, "Maximum lenght is 500 characters"]
@@ -65,9 +65,9 @@ const EventSchema = new mongoose.Schema({
         type: String,
         required: [true, "A main description is required"],
         maxlenght:[5000, "Maximum lenght is 500 characters"]
-    }, 
+    },  
 
-});
+ */});
 
  //Se esiste di già allora usiamo quello se no lo si crea
 //a partiere dallo schema che abbiamo appena creato

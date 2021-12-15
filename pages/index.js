@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch' //Thanks to this import we can do http request inside a project
 import styles from '../public/Home.module.css'
+import 'semantic-ui-css/semantic.min.css'
 
 const Home = ({ events }) => {
   return (
@@ -30,13 +31,14 @@ const Home = ({ events }) => {
                         
                                      <div className={styles.eventIntro}>
 
-                                     <Link href={`/${event._id}/edit`} >
+                                     <Link href={`/${event._id}/FormEdit`} >
                                          <a className={styles.button}>Edit</a>
                                        </Link>
 
                                        <Link href={`/${event._id}`} >
-                                         <a className={styles.button}>Publish</a>
+                                         <a className={styles.button}>View</a>
                                        </Link>
+
 
                                       
 
@@ -49,6 +51,16 @@ const Home = ({ events }) => {
             </div>
           )
         })}
+      </div>
+
+      <div className={styles.createEvent}>
+        <Link href={'/organizer/FormCreate'}>
+        <a>
+          CREATE A NEW EVENT
+
+        </a>
+        </Link>
+
       </div>
     </div>
   )

@@ -1,59 +1,99 @@
-import mongoose from 'mongoose'
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import fetch from 'isomorphic-unfetch';
+import { Button, Form, Loader } from 'semantic-ui-react';
+import { useRouter } from 'next/router';
 
-/* PetSchema will correspond to a collection in your MongoDB database. */
-const PetSchema = new mongoose.Schema({
-  name: {
-    /* The name of this pet */
+const NewNote = () => {
+    const [form, setForm] = useState({ title: '', description: '' });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errors, setErrors] = useState({});
+    const router = useRouter();
 
-    type: String,
-    required: [true, 'Please provide a name for this pet.'],
-    maxlength: [20, 'Name cannot be more than 60 characters'],
-  },
-  owner_name: {
-    /* The owner of this pet */
+    useEffect(() => {
+        if (isSubmitting) {
+            if (Object.keys(errors).length === 0) {
+                createNote();
+            }
+            else {
+                setIsSubmitting(false);
+            }
+        }
+    }, [errors])
 
-    type: String,
-    required: [true, "Please provide the pet owner's name"],
-    maxlength: [20, "Owner's Name cannot be more than 60 characters"],
-  },
-  species: {
-    /* The species of your pet */
+    const createNote = async () => {
+        try {
+            const res = await fetch('http://localhost:3000/api/notes', {
+                method: 'POST',
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(form)
+            })
+            router.push("/");
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    type: String,
-    required: [true, 'Please specify the species of your pet.'],
-    maxlength: [30, 'Species specified cannot be more than 40 characters'],
-  },
-  age: {
-    /* Pet's age, if applicable */
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let errs = validate();
+        setErrors(errs);
+        setIsSubmitting(true);
+    }
 
-    type: Number,
-  },
-  poddy_trained: {
-    /* Boolean poddy_trained value, if applicable */
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        })
+    }
 
-    type: Boolean,
-  },
-  diet: {
-    /* List of dietary needs, if applicable */
+    const validate = () => {
+        let err = {};
 
-    type: Array,
-  },
-  image_url: {
-    /* Url to pet image */
+        if (!form.title) {
+            err.title = 'Title is required';
+        }
+        if (!form.description) {
+            err.description = 'Description is required';
+        }
 
-    required: [true, 'Please provide an image url for this pet.'],
-    type: String,
-  },
-  likes: {
-    /* List of things your pet likes to do */
+        return err;
+    }
 
-    type: Array,
-  },
-  dislikes: {
-    /* List of things your pet does not like to do */
+    return (
+        <div className="form-container">
+            <h1>Create Note</h1>
+            <div>
+                {
+                    isSubmitting
+                        ? <Loader active inline='centered' />
+                        : <Form onSubmit={handleSubmit}>
+                            <Form.Input
+                                fluid
+                                error={errors.title ? { content: 'Please enter a title', pointing: 'below' } : null}
+                                label='Title'
+                                placeholder='Title'
+                                name='title'
+                                onChange={handleChange}
+                            />
+                            <Form.TextArea
+                                fluid
+                                label='Descriprtion'
+                                placeholder='Description'
+                                name='description'
+                                error={errors.description ? { content: 'Please enter a description', pointing: 'below' } : null}
+                                onChange={handleChange}
+                            />
+                            <Button type='submit'>Create</Button>
+                        </Form>
+                }
+            </div>
+        </div>
+    )
+}
 
-    type: Array,
-  },
-})
-
-export default mongoose.models.Pet || mongoose.model('Pet', PetSchema)
+export default NewNote;

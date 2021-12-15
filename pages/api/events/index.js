@@ -1,6 +1,6 @@
 import dbConnect from "../../../util/dbConnection";
 
-import Event from '../../../util/model/Event';
+import Event from '../../../util/model/Event.js';
 
 
 dbConnect();
@@ -27,6 +27,7 @@ export default async (req, res) => {
                 res.status(400).json({ success: false });
             }
             break;
+            
         default:
             res.status(400).json({ success: false });
             break;
