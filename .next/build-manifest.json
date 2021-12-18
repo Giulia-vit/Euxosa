@@ -15,10 +15,10 @@
     "static/development/_middlewareManifest.js"
   ],
   "pages": {
-    "/": [
+    "/[persona]/[id]/FormEdit": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/index.js"
+      "static/chunks/pages/[persona]/[id]/FormEdit.js"
     ],
     "/_app": [
       "static/chunks/webpack.js",
@@ -30,10 +30,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/organizer/FormCreate": [
+    "/organizer": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/organizer/FormCreate.js"
+      "static/chunks/pages/organizer.js"
     ]
   },
   "ampFirstPages": []
