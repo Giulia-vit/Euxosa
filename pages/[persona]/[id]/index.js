@@ -8,19 +8,30 @@ import 'semantic-ui-css/semantic.min.css'
 
 const Event = ({ event }) => {
     const [confirm, setConfirm] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
+/*     const [confirmP, setConfirmP] = useState(false);
+ */    const [isDeleting, setIsDeleting] = useState(false);
+/*     const [isPosting, setIsPosting] = useState(false);
+ */    
     const router = useRouter();
 
     useEffect(() => {
         if (isDeleting) {
             deleteEvent();
         }
-    }, [isDeleting])
+        if(isPosting){
+            postEvent();
+        }
+
+    })
+
+
 
     const open = () => setConfirm(true);
-
+/*     const openPosting = () =>setConfirmP(true);
+ */
     const close = () => setConfirm(false);
-
+/*     const closePosting = () => setConfirmP(false);
+ */
     const deleteEvent = async () => {
         const id = router.query.id;
         try {
@@ -34,14 +45,43 @@ const Event = ({ event }) => {
             console.log(error)
         }
     }
+/* 
+    const postEvent = async () =>{
+        try{
+            const posted = await fetch(`http://localhost:3000/api/event_user/index.js`, {
+                method: 'POST',
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(event)
+            });
+            var pathArray = window.location.pathname.split('/');
+            var persona = pathArray[1];
+            router.push(`/${persona}`);
+            console.log(JSON.stringify(event));
+        }catch(error){
+            console.log(error)
+        }
+    }
+ */
+
 
     const handleDelete = async () => {
         setIsDeleting(true);
         close();
     }
 
+  /*   const handlePosting = async () => {
+        setIsPosting(true);
+        closePosting();
+    } */
+
     const pathArray = window.location.pathname.split('/');
     const person = pathArray[1];
+
+
+
 
 
 
@@ -51,7 +91,7 @@ const Event = ({ event }) => {
         <div className={styles.eventPage}>
 
 
-            {isDeleting
+            {isDeleting || isPosting
                 ? <Loader active />
                 :
 
@@ -112,7 +152,13 @@ const Event = ({ event }) => {
         <a>
             Edit Event
         </a>
-        </Link>
+</Link>
+
+{/* <button onClick={openPosting}>Post Event</button>
+<Confirm
+open={confirmP}
+onCancel={closePosting}
+onConfirm={handlePosting}></Confirm> */}
 
 
 
@@ -120,6 +166,8 @@ const Event = ({ event }) => {
 
 
 
+
+{/*Confirm for deleating a button*/}
 
 <Confirm open={confirm}
                 onCancel={close}

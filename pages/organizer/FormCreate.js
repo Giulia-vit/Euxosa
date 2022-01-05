@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { Button, Form, Loader, Dropdown } from 'semantic-ui-react';
+import { Button, Form, Loader } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 
-const NewNote = () => {
-    const [form, setForm] = useState({ title: '', category: '' });
+const NewEvent = () => {
+    const [form, setForm] = useState({ title: ''});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
@@ -13,7 +13,7 @@ const NewNote = () => {
     useEffect(() => {
         if (isSubmitting) {
             if (Object.keys(errors).length === 0) {
-                createNote();
+                createEvent();
             }
             else {
                 setIsSubmitting(false);
@@ -21,7 +21,7 @@ const NewNote = () => {
         }
     }, [errors])
 
-    const createNote = async () => {
+    const createEvent = async () => {
         try {
             const res = await fetch('http://localhost:3000/api/events', {
                 method: 'POST',
@@ -31,7 +31,9 @@ const NewNote = () => {
                 },
                 body: JSON.stringify(form)
             })
-            router.push("/");
+            router.push("/organizer");
+            console.log(JSON.stringify(form));
+
         } catch (error) {
             console.log(error);
         }
@@ -58,27 +60,9 @@ const NewNote = () => {
             err.title = 'Title is required';
         }
 
-        if(!form.category){
-            err.category = 'Category required'
-        }
-
 
         return err;
     }
-
-    const categoryOption = [
-        { key: 'sc', value: 'sc', text: 'Science' },
-        { key: 'mt', value: 'mt', text: 'Math' },
-        { key: 'dp', value: 'dp', text: 'Diplomacy' },
-        { key: 'lg', value: 'lg', text: 'Language' },
-        { key: 'lt', value: 'lt', text: 'Latin' },
-        { key: 'sp', value: 'sp', text: 'Speach' },
-        { key: 'in', value: 'in', text: 'Informatic' },
-        { key: 'pt', value: 'pt', text: 'Poetry' },
-        { key: 'at', value: 'at', text: 'Art' },
-        { key: 'ph', value: 'ph', text: 'Photography' },
-        
-    ]
 
     return (
         <div className="form-container">
@@ -96,14 +80,6 @@ const NewNote = () => {
                                 name='title'
                                 onChange={handleChange}
                             />
-                            <Dropdown
-                                onChange={handleChange}
-                                name='category'
-                                placeholder='Select category'
-                                options={categoryOption} 
-                                fluid 
-                                multiple
-                            />
 
                             <Button type='submit'>Create</Button>
                         </Form>
@@ -113,4 +89,4 @@ const NewNote = () => {
     )
 }
 
-export default NewNote;
+export default NewEvent;

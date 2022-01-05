@@ -1,4 +1,3 @@
-// this one should modify the event with the specific ID not create another 
 
 import Link from 'next/link';
 import React from 'react'
@@ -15,6 +14,8 @@ const EditEvent = ({event}) => {
     const [form, setForm] = useState({ title: event.title, shortDescription: event.shortDescription, longDescription:event.longDescription});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({}); 
+    const [form, setForm] = useState({ title: '', category: '' });
+
 
 
 
@@ -53,6 +54,14 @@ const EditEvent = ({event}) => {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const pathArray = window.location.pathname.split('/');
+    const person = pathArray[1];
+
+    if(person == 'admin'){
+        const publishButton = (
+            <button type='submit'>POST EVENTS ON USER PANEL</button>)
     }
 
     const handleSubmit = (e) => {
@@ -148,7 +157,12 @@ const EditEvent = ({event}) => {
                                     onChange={handleChange} />
 
 
-                                <button type='submit'>Edit</button>
+                                <button type='submit'>Edit</button>   //deve esserci un onclick che fa edit tutto 
+                                // dopo ci deve essere un'altro onclick per postare
+
+                                {/*PER PUBBLICARE*/}
+                                
+                                <div>{publishButton}</div>
                             </Form>
                             </>
                 }
@@ -170,7 +184,3 @@ EditEvent.getInitialProps = async ({query : { id }}) =>{
 }
 
 export default EditEvent;
-
-
-
-

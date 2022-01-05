@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const EventSchema = new mongoose.Schema({
+
     title:{
         type: String,
         required: [true, "The Name of the Event is required"],
@@ -8,22 +9,40 @@ const EventSchema = new mongoose.Schema({
         trim: true,
         maxlength: [150, "Maximum lenght is 150 characters"]   
     },
-   category:{
+/*    category:{
         type: String,
         required: [true, "The Category is required"],
         unique: true,
         trim: true,
         maxlength: [150, "Maximum lenght is 150 characters"]  //Make them choose between a set of preexisted categories 
     },
-/*     introduction:{
+     smallDescription:{
         type: String,
         required: [true, "An Introduction is required"],
         maxlenght:[500, "Maximum lenght is 500 characters"]
     },
-    maxPeople:{
+    mainDescription:{
+        type: String,
+        required: [true, "A main description is required"],
+        maxlenght:[5000, "Maximum lenght is 500 characters"]
+    },  
+
+    maxNumber:{
         type: Number,
     },
-    minAge:{
+    published:{
+        type: Boolean,
+    },
+    createdAt:{
+        type: Date,
+        requird:[true, 'Insert a date']
+    },
+    longDescription:{
+        type: String,
+        required: [true, "A main description is required"],
+        maxlenght:[5000, "Maximum lenght is 500 characters"]
+    }    
+ */ /*   minAge:{
         type: Number,
     },
     pastEditions:{
@@ -61,11 +80,6 @@ const EventSchema = new mongoose.Schema({
         required:[true, 'Insert a small image description'],
         maxlength:[30, 'Maxlength is 30 characters']
     },
-    longDescription:{
-        type: String,
-        required: [true, "A main description is required"],
-        maxlenght:[5000, "Maximum lenght is 500 characters"]
-    },  
 
  */});
 
